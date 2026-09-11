@@ -1,0 +1,2 @@
+# MTD service (Xiaomi mitee-backed keystore-adjacent HAL)
+vendor.xiaomi.hardware.mtdservice::IMTService u:object_r:hal_mtdservice_hwservice:s0

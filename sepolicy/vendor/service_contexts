@@ -1,0 +1,4 @@
+# MRM (Xiaomi mitee-backed payment/attestation HAL)
+vendor.xiaomi.hardware.mrm.IMrm/default            u:object_r:hal_mrm_service:s0
+vendor.xiaomi.hardware.mrm.IMiCertificate/default  u:object_r:hal_mrm_service:s0
+vendor.xiaomi.hardware.mrm.IMrmRemoteAuth/default  u:object_r:hal_mrm_service:s0

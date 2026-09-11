@@ -1,0 +1,22 @@
+hal_attribute(mrm)
+
+type hal_mrm_default, domain;
+type hal_mrm_default_exec, exec_type, vendor_file_type, file_type;
+
+init_daemon_domain(hal_mrm_default)
+hal_server_domain(hal_mrm_default, hal_mrm)
+binder_use(hal_mrm_default)
+
+type hal_mrm_service, service_manager_type;
+hal_attribute_service(hal_mrm, hal_mrm_service)
+
+hal_client_domain(system_server, hal_mrm)
+hal_client_domain(platform_app, hal_mrm)
+hal_client_domain(system_app, hal_mrm)
+hal_client_domain(dumpstate, hal_mrm)
+
+# TEE/ION device access used by mrmd_mitee (matches stock's compiled sepolicy)
+allow hal_mrm_default tee_device:chr_file rw_file_perms;
+allow hal_mrm_default ion_device:chr_file rw_file_perms;
+allow hal_mrm_default selinuxfs:file r_file_perms;
+allow hal_mrm_default system_boot_reason_prop:file { getattr open read map };

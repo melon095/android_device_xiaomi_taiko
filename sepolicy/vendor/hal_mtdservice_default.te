@@ -1,0 +1,28 @@
+hal_attribute(mtdservice)
+
+type hal_mtdservice_default, domain;
+type hal_mtdservice_default_exec, exec_type, vendor_file_type, file_type;
+
+init_daemon_domain(hal_mtdservice_default)
+hal_server_domain(hal_mtdservice_default, hal_mtdservice)
+hwbinder_use(hal_mtdservice_default)
+
+type hal_mtdservice_hwservice, hwservice_manager_type;
+hal_attribute_hwservice(hal_mtdservice, hal_mtdservice_hwservice)
+
+hal_client_domain(system_server, hal_mtdservice)
+hal_client_domain(platform_app, hal_mtdservice)
+hal_client_domain(system_app, hal_mtdservice)
+
+# TEE/ION device access used by mtd_mitee (matches stock's compiled sepolicy)
+allow hal_mtdservice_default tee_device:chr_file rw_file_perms;
+allow hal_mtdservice_default ion_device:chr_file rw_file_perms;
+
+# Binder calls to servicemanager (AIDL lookups) and hal_keymint_default (attestation-related IPC)
+binder_call(hal_mtdservice_default, servicemanager)
+binder_call(hal_mtdservice_default, hal_keymint_default)
+
+# persist.vendor.sys.{provision,attestation}.status etc, set at startup (matches stock's compiled sepolicy)
+vendor_public_prop(vendor_payment_security_prop)
+set_prop(hal_mtdservice_default, vendor_payment_security_prop)
+get_prop(hal_mtdservice_default, vendor_payment_security_prop)
